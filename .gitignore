@@ -1,0 +1,40 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Python cache / build
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Local Codex/runtime artifacts
+.codex
+
+# Local runtime DB/cache
+*.db
+*.sqlite
+*.sqlite3
+
+# Project runtime snapshots and exported datasets
+okx_*.json
+fullDataExtractionForBTC/data/
+
+# Optional local logs/temp
+*.log
+*.tmp
+*.swp
