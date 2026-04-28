@@ -3,7 +3,7 @@
 AlphaPulse is an OKX-focused monitoring and backtesting project, including listing alerts, funding-rate + open-interest scanners, accumulation radar, and strategy backtests.
 
 ## 🤖 One-line AI Quick Read
-Use Python 3.10+, run `UV_LINK_MODE=copy uv sync --dev`, start `uv run python web_console.py --host 127.0.0.1 --port 8787`, use `s1/s2/s3` for listing monitor, funding+OI scan, and radar, and keep backtest timing as signal on previous closed bar and execution on next bar.
+```Use Python 3.10+, run `UV_LINK_MODE=copy uv sync --dev`, start `uv run python web_console.py --host 127.0.0.1 --port 8787`, use `s1/s2/s3` for listing monitor, funding+OI scan, and radar, and keep backtest timing as signal on previous closed bar and execution on next bar.```
 
 ## 🚀 Quick Start
 

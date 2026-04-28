@@ -3,7 +3,7 @@
 面向 OKX 的监控 + 回测项目，覆盖公告监控、资金费率与持仓异动扫描、热度雷达，以及基于历史数据的策略回测验证。
 
 ## 🤖 给 AI 的一句话
-请在 Python 3.10+ 环境使用 `UV_LINK_MODE=copy uv sync --dev` 安装依赖，然后通过 `uv run python web_console.py --host 127.0.0.1 --port 8787` 启动工作台，按 `s1/s2/s3` 分别执行公告监控、资金费率+OI 扫描和热度雷达，并遵循“信号用上一根已收盘 K 线、下一根执行”的回测时序规则。
+```请在 Python 3.10+ 环境使用 `UV_LINK_MODE=copy uv sync --dev` 安装依赖，然后通过 `uv run python web_console.py --host 127.0.0.1 --port 8787` 启动工作台，按 `s1/s2/s3` 分别执行公告监控、资金费率+OI 扫描和热度雷达，并遵循“信号用上一根已收盘 K 线、下一根执行”的回测时序规则。```
 
 ## 🚀 快速开始
 
