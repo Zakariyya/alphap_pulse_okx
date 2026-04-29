@@ -32,6 +32,7 @@ env/
 
 # Project runtime snapshots and exported datasets
 okx_*.json
+fullDataExtractionForBTC/data/
 
 # Optional local logs/temp
 *.log

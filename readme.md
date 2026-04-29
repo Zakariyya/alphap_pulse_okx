@@ -81,8 +81,53 @@ uv run python -m pytest -q
 
 ## 🗂️ 数据与版本管理说明
 
-- `fullDataExtractionForBTC/` 是重要数据集，默认应纳入版本管理。
+- 仓库默认忽略 `fullDataExtractionForBTC/data/`，避免大文件进入 Git 历史。
+- 数据集通过 GitHub Release 分发与恢复。
 - `okx_*.json` 为本地运行快照，默认不提交。
+
+### 📦 数据集发布与使用（GitHub Release）
+
+发布方（更新数据集到 Release）：
+
+```bash
+# 1) 打包 fullDataExtractionForBTC/data（输出 zip + sha256 到 dist/dataset/）
+scripts/package_data_release.sh v2026.04.29
+
+# 2) 创建新的 Release
+gh release create "v2026.04.29" \
+  dist/dataset/data-v2026.04.29.zip \
+  dist/dataset/data-v2026.04.29.zip.sha256 \
+  --repo Zakariyya/fullDataExtractionForBTC \
+  --title "Dataset v2026.04.29" \
+  --notes "Dataset package for release v2026.04.29"
+```
+
+如果 tag 已存在，改用上传：
+
+```bash
+gh release upload "v2026.04.29" \
+  dist/dataset/data-v2026.04.29.zip \
+  dist/dataset/data-v2026.04.29.zip.sha256 \
+  --repo Zakariyya/fullDataExtractionForBTC \
+  --clobber
+```
+
+使用方（下载并恢复 `fullDataExtractionForBTC/data/`）：
+
+```bash
+# 1) 下载 Release 资产
+gh release download "v2026.04.29" \
+  --repo Zakariyya/fullDataExtractionForBTC \
+  -D /tmp/btc-dataset
+
+# 2) 校验完整性
+cd /tmp/btc-dataset
+sha256sum -c data-v2026.04.29.zip.sha256
+
+# 3) 解压到项目根目录（会得到 ./fullDataExtractionForBTC/data/...）
+cd /mnt/d/me/project/AlphaPulse
+unzip -o /tmp/btc-dataset/data-v2026.04.29.zip -d fullDataExtractionForBTC
+```
 
 ## 🌍 英文文档
 

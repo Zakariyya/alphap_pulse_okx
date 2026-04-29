@@ -61,3 +61,53 @@ uv run python -m pytest -q
 - Indicators must use only the previous closed bar.
 - Signals are generated on `bar[t-1]` and executed on `bar[t]`.
 - Never use an unfinished bar for decisions.
+
+## 🗂️ Dataset Versioning
+
+- `fullDataExtractionForBTC/data/` is ignored by default to keep large files out of Git history.
+- Dataset distribution/recovery is done through GitHub Releases.
+- `okx_*.json` runtime snapshots are local-only and not committed.
+
+### 📦 Publish & Restore Dataset via GitHub Release
+
+Publisher flow:
+
+```bash
+# 1) Package fullDataExtractionForBTC/data (zip + sha256 to dist/dataset/)
+scripts/package_data_release.sh v2026.04.29
+
+# 2) Create a new release
+gh release create "v2026.04.29" \
+  dist/dataset/data-v2026.04.29.zip \
+  dist/dataset/data-v2026.04.29.zip.sha256 \
+  --repo Zakariyya/fullDataExtractionForBTC \
+  --title "Dataset v2026.04.29" \
+  --notes "Dataset package for release v2026.04.29"
+```
+
+If the tag already exists:
+
+```bash
+gh release upload "v2026.04.29" \
+  dist/dataset/data-v2026.04.29.zip \
+  dist/dataset/data-v2026.04.29.zip.sha256 \
+  --repo Zakariyya/fullDataExtractionForBTC \
+  --clobber
+```
+
+Consumer flow:
+
+```bash
+# 1) Download release assets
+gh release download "v2026.04.29" \
+  --repo Zakariyya/fullDataExtractionForBTC \
+  -D /tmp/btc-dataset
+
+# 2) Verify checksum
+cd /tmp/btc-dataset
+sha256sum -c data-v2026.04.29.zip.sha256
+
+# 3) Restore into project root (gets ./fullDataExtractionForBTC/data/...)
+cd /mnt/d/me/project/AlphaPulse
+unzip -o /tmp/btc-dataset/data-v2026.04.29.zip -d fullDataExtractionForBTC
+```
