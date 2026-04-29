@@ -108,7 +108,7 @@ gh release create "v2026.04.29" \
 gh release upload "v2026.04.29" \
   dist/dataset/data-v2026.04.29.zip \
   dist/dataset/data-v2026.04.29.zip.sha256 \
-  --repo Zakariyya/fullDataExtractionForBTC \
+  --repo Zakariyya/alphap_pulse_okx \
   --clobber
 ```
 
