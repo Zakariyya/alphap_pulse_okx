@@ -175,3 +175,25 @@ def test_run_backtest_from_request_supports_multi_strategy_combo():
     assert len(result["combination"]) == 2
     assert result["combination"][0]["weight"] == 0.4
     assert result["metrics"]["initial_capital"] == 10000
+
+
+
+def test_combined_single_strategy_trade_equity_matches_final_equity():
+    payload = {
+        "start": "2025-10-01",
+        "end": "2026-02-28",
+        "initial_capital": 100,
+        "fee_rate": 0.0005,
+        "slippage_rate": 0.0002,
+        "signal_minutes": 5,
+        "strategies": [
+            {"name": "defensive_barbell", "weight": 1.0},
+        ],
+    }
+
+    result = run_backtest_from_request(payload)
+
+    assert result["strategy"] == "combined"
+    assert result["trades"]
+    assert result["trades"][-1]["account_equity_after_trade"] == result["metrics"]["final_equity"]
+    assert round(result["equity_curve"][-1]["equity"], 2) == result["metrics"]["final_equity"]

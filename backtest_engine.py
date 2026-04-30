@@ -412,12 +412,12 @@ def run_combined_backtest(
             curve_by_timestamp[timestamp] += latest_equity
 
     combined_curve = [{"timestamp": ts, "equity": curve_by_timestamp[ts]} for ts in candle_timestamps]
-    combined_trades.sort(key=lambda row: row["entry_time"])
-    combined_trades.sort(key=lambda row: row["exit_time"])
-    running_equity = initial_capital
+    combined_trades.sort(key=lambda row: (row["exit_time"], row["entry_time"], row.get("strategy", "")))
+    curve_by_iso = {row["timestamp"]: float(row["equity"]) for row in combined_curve}
     for trade in combined_trades:
-        running_equity += float(trade.get("pnl", 0))
-        trade["account_equity_after_trade"] = round(running_equity, 2)
+        exit_time = trade["exit_time"]
+        if exit_time in curve_by_iso:
+            trade["account_equity_after_trade"] = round(curve_by_iso[exit_time], 2)
     metrics = calculate_metrics(combined_curve, combined_trades, initial_capital=initial_capital)
     return {
         "strategy": "combined",
