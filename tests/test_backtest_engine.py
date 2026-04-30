@@ -119,6 +119,7 @@ def test_discover_strategies_finds_repo_strategy_files():
     assert "small_barbell" in strategies
     assert "fixed_barbell" in strategies
     assert "defensive_barbell" in strategies
+    assert "defensive_barbell_v2" in strategies
 
 
 def test_summarize_dataset_ignores_data_csv_directories(tmp_path):

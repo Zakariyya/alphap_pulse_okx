@@ -921,6 +921,21 @@ function strategyLogicDetail(name, p) {
       const tp = get('tp_pct', 0.05);
       return `1) 双过滤: 趋势过滤 Close_t>MA(Close,${mw})；波动过滤 ATR_${aw}/Close_t <= ${al}。2) 入场: 满足双过滤且空仓 => 做多。3) 退出: Close_t<MA 或 ATR/Close 超阈值 => 发平仓信号。4) 风控: 固定止损=${sl}，固定止盈=${tp}。5) 平仓: 止损/止盈/退出信号。`;
     },
+    defensive_barbell_v2: () => {
+      const mw = get('ma_window', 72);
+      const aw = get('atr_window', 24);
+      const al = get('atr_limit', 0.012);
+      const eb = get('entry_buffer', 0.0015);
+      const xb = get('exit_buffer', 0.0005);
+      const cb = get('confirm_bars', 2);
+      const ecb = get('exit_confirm_bars', 2);
+      const mh = get('min_hold_bars', 3);
+      const cd = get('cooldown_bars', 2);
+      const aem = get('atr_exit_multiplier', 1.35);
+      const sl = get('sl_pct', 0.025);
+      const tp = get('tp_pct', 0.05);
+      return `1) 入场过滤: 连续${cb}根已收盘bar满足 Close > MA_${mw}*(1+${eb}) 且 ATR_${aw}/Close <= ${al}。2) 持仓约束: 入场后至少持有 ${mh} 根bar。3) 趋势退出: 连续${ecb}根已收盘bar满足 Close < MA_${mw}*(1-${xb}) 才发平仓信号。4) 波动退出: 仅当 ATR/Close > ${al}*${aem} 且趋势同时走弱时才触发极端波动退出。5) 冷却: 平仓后等待 ${cd} 根bar 才允许重新入场。6) 风控: 固定止损=${sl}，固定止盈=${tp}。`;
+    },
   };
   const builder = docs[name];
   if (builder) return builder();
